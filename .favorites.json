@@ -1,0 +1,26 @@
+[
+    {
+        "type": "File",
+        "name": "/Users/mikehacker/_dev/personal-projects/tm.dev/react/00.filter.js",
+        "parent_id": null,
+        "workspaceRoot": "/Users/mikehacker/_dev/personal-projects/tm.dev/react",
+        "workspacePath": "00.filter.js",
+        "id": "UtyeHgsYM2Jbpjkh"
+    },
+    {
+        "type": "File",
+        "name": "/Users/mikehacker/_dev/personal-projects/tm.dev/react/00.map.js",
+        "parent_id": null,
+        "workspaceRoot": "/Users/mikehacker/_dev/personal-projects/tm.dev/react",
+        "workspacePath": "00.map.js",
+        "id": "H5f8euBb6dLhSR7T"
+    },
+    {
+        "type": "File",
+        "name": "/Users/mikehacker/_dev/personal-projects/tm.dev/react/00.reduce.js",
+        "parent_id": null,
+        "workspaceRoot": "/Users/mikehacker/_dev/personal-projects/tm.dev/react",
+        "workspacePath": "00.reduce.js",
+        "id": "a5TY3tkMfzHP9dxj"
+    }
+]
