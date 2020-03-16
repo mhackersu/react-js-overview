@@ -1,3 +1,19 @@
+## Table of Contents
+
+[Imperative vs Declarative](#imperative-vs-declarative-programming)
+
+[Understanding 'this' in JS](#understanding-the-this-keyword-in-javascript)
+
+[A guide to Prototype in JS](#a-guide-to-the-javascript-prototype)
+
+[A guide to Private and Public Class Fields in JS](#private-and-public-class-fields-in-js)
+
+[Javascript Inheritance & The Prototype Chain](#javascript-inheritance-and-the-prototype-chain-[wip])
+
+[Composition and Inheritance in JS](#javascript-composition-and-inheritance-[wip])
+
+[Handy JS Declarative Methods](#javascript-declarative-methods-[wip])
+
 # Imperative vs Declarative Programming
 
 ## Imperative is HOW
@@ -1367,3 +1383,478 @@ pumpkin.meow(1);
 ## Map
 
 ## Reduce
+
+# NPM Quiz
+
+# Webpack Quiz
+
+# React Elements vs React Components
+
+Given this bit of code, there could be some confusion around what to call this:
+
+```
+// Function Definition
+function add (x,y) {
+  return x + y
+}
+
+// Function Invocation
+add(1,2)
+
+// Component Definition
+class Icon extends Component {}
+
+// Component Instantiation
+<Icon />
+```
+
+There is a much un-discussed abstraction layer between JSX and what is actually going on in React. Let's take a deep dive into that abstraction.
+
+#### We know the following:
+
+- React is a library that is useful for building UIs
+
+## React Elements
+
+- A React Element is what gets returned from components. It’s an object that virtually describes the DOM nodes that a component represents.
+- With a function component, this element is the object that the function returns.
+- With a class component, the element is the object that the component’s render function returns. R
+- React elements are not what we see in the browser. They are just objects in memory and we can’t change anything about them.
+- React elements can have other `type` properties other than native HTML elements.
+
+#### We know the following:
+
+- A react element describes what we want to see on the screen.
+
+#### A more complex way of saying that is:
+
+- A React element is an object representation of a DOM node.
+
+\_It's important to make this distinction here because the element is not the actual thing we see on the screen, rather the object representation is what is rendered.
+
+### React is good with this in these ways:
+
+- React can create and destroy these element without much overhead. The JS objects are lightweight and low-cost.
+- React can diff an object with the previous object representation to see what has changed.
+- React can update the actual DOM specifically where the changes it detected occurred. This has some performance upsides.
+
+#### We can create an object representation of a DOM node (aka React element) using the `createElement` method.
+
+```
+const element = React.createElement(
+  'div',
+  {id: 'login-btn'},
+  'Login'
+  )
+```
+
+#### Here `createElement` takes in three arguments
+
+1. The tag name (eg. div, span, etc)
+2. Any attribuites we want the element to have
+3. The contents of the children of the element (eg. the text that reads `Login`)
+
+#### The `createElement` invocation returns an object
+
+```
+{
+  type: 'div',
+  props: {
+    children: 'Login',
+    id: 'login-btn'
+  }
+}
+```
+
+#### When this is rendered to the DOM (using `ReactDOM.render`), we'll have a new DOM node that looks like this:
+
+```
+<div id='login-btn'>Login</div>
+```
+
+### Huzzah!
+
+![Huzzah](https://media.giphy.com/media/2xO491sY6f0cM/giphy.gif)
+
+> Generally React is taught from a components-first approach, however understanding elements-first makes for a smooth transition to components.
+
+## React Components
+
+> A component is a function or a Class which optionally accepts input and returns a React element.
+
+- A React Component is a template. A blueprint. A global definition. This can be either a function or a class (with a render function).
+
+- If react sees a class or a function as the first argument, it will check to see what element it renders, given the corresponding props and will continue to do this until there are no more `createElement` invocations which have a class or a function as their first argument.
+
+- When React sees an element with a function or class type, it will consult with that component to know which element it should return, given the corresponding props.
+
+- At the end of this processes, React will have a full object representation of the DOM tree. This whole process is called reconciliation in React and is triggered each time `setState` or `ReactDOM.render` is called.
+
+#### Class-Based Components
+
+> Class syntax is one of the most common ways to define a React component. While more verbose than the functional syntax, it offers more control in the form of lifecycle hooks.
+
+- We can render many instances of the same component.
+- The instance is the "this" keyword that is used inside the class-based component.
+- Is not created manually and is somewhere inside React's memory.
+
+_Create a class component_
+
+```
+// MyComponent.js
+import React, { Component } from 'react';
+
+class MyComponent extends Component {
+  render() {
+    return (
+      <div>This is my component.</div>
+    );
+  }
+}
+
+export default MyComponent;
+```
+
+_Use it in any other component_
+
+```
+// MyOtherComponent.js
+import React, { Component } from 'react';
+import MyComponent from './MyComponent';
+
+class MyOtherComponent extends Component {
+  render() {
+    return (
+      <div>
+        <div>This is my other component.</div>
+        <MyComponent />
+      </div>
+    );
+  }
+}
+
+export default MyOtherComponent;
+```
+
+_Use props_
+
+```
+<MyComponent myProp="This is passed as a prop." />
+```
+
+_Props can be accessed with `this.props`_
+
+```
+class MyComponent extends Component {
+  render() {
+    const {myProp} = this.props;
+    return (
+      <div>{myProp}</div>
+    );
+  }
+}
+```
+
+_Using state_
+
+```
+class MyComponent extends Component {
+  render() {
+    const {myState} = this.state || {};
+    const message = `The current state is ${myState}.`;
+    return (
+      <div>{message}</div>
+    );
+  }
+}
+```
+
+_Using lifecycle hooks_
+
+```
+class MyComponent extends Component {
+  // Executes after the component is rendered for the first time
+  componentDidMount() {
+    this.setState({myState: 'Florida'});
+  }
+
+  render() {
+    const {myState} = this.state || {};
+    const message = `The current state is ${myState}.`;
+    return (
+      <div>{message}</div>
+    );
+  }
+}
+```
+
+#### Function-Based Components
+
+- Do not have instances.
+- Can be rendered multiple times but React does not associate a local instance with each render.
+- React uses the invocation of the function to determine what DOM element to render for the function.
+
+_With `createElement`_
+
+```
+function Button ({ addFriend }) {
+  return React.createElement(
+    "button",
+    { onClick: addFriend },
+    "Add Friend"
+  )
+}
+
+function User({ name, addFriend }) {
+  return React.createElement(
+    "div",
+    null,
+    React.createElement(
+      "p",
+      null,
+      name
+    ),
+    React.createElement(Button, { addFriend })
+  )
+}
+```
+
+_With what `createElement` returns_
+
+```
+function Button ({ addFriend }) {
+  return {
+    type: 'button',
+    props: {
+      onClick: addFriend,
+      children: 'Add Friend'
+    }
+  }
+}
+
+function User ({ name, addFriend }) {
+  return {
+    type: 'div',
+    props: {
+      children: [
+        {
+          type: 'p',
+          props: {
+            children: name
+          }
+        },
+        {
+          type: Button,
+          props: {
+            addFriend
+          }
+        }
+      ]
+    }
+  }
+}
+```
+
+Here we have a `Button` component which accepts an `onLogin` input and returns a React element.
+
+- The `Button` component receives an `onLogin` method as its property.
+- To pass that along to our object representation of the DOM, we'll pass it along as the second argument to createElement, just as we did with the `id` attribute.
+
+# JSX Tips
+
+## Variables in JSX
+
+- To use an expression (eg. something that produces a value) in JSX, wrap the express in curly braces.
+
+### Render with nothing
+
+```
+render() {
+  if (isLoading() === true) {
+    return null
+  }
+
+  return (
+    ...
+  )
+}
+```
+
+### Conditional Rendering
+
+```
+import React from 'react'
+
+// Angular
+// <h1 *ngIf="authed; else elseBlock">Welcome back!</h1>
+// <ng-template #elseBlock><h1>Login to see your dashboard</h1></ng-template>
+
+// Vue
+// <h1 v-if="authed">Welcome back!</h1>
+// <h1 v-else>Login to see your dashboard</h1>
+
+// React is differient
+// Instead of increasing the API surface layer
+// React instead leverages the native JS features
+// eg. Conditional rendering
+render() {
+  const authed = isAuthed()
+  const firstLogin = isNew()
+
+  if (firstLogin === true) {
+    return <h1>👋 Welcome!</h1>
+  } else if (authed === true) {
+    return <h1>Welcome back!</h1>
+  } else {
+    return <h1>Login to see your dashboard</h1>
+  }
+
+  const name = 'Mike'
+
+  return (
+    <div>
+      <h1>Hello, {name}</h1>
+      <p>Today is {new Date().toLocaleDateString()}</p>
+      <p>What is 2 + 2? {2 + 2}</p>
+    </div>
+  )
+}
+```
+
+### Ternary Operator
+
+- If working with a single condition, the ternary operator is typically what should be used.
+
+```
+render() {
+  return isAuthed() === true
+    ? <h1>Welcome back!</h1>
+    : <h1>Login to see your dashboard</h1>
+}
+```
+
+### Ternary Inside of JSX
+
+```
+render() {
+  return (
+    <div>
+      <Logo />
+      {isAuthed() === true
+        ? <h1>Welcome back!</h1>
+        : <h1>Login to see your dashboard</h1>}
+    </div>
+  )
+}
+```
+
+### Combining ternaries with null
+
+- Here authed won’t be checked if user isn’t truthy
+
+```
+render() {
+  return (
+    <div>
+      <Logo />
+      {showWarning() === true
+        ? <Warning />
+        : null}
+    </div>
+  )
+}
+```
+
+### Using the Logical && Operator with the ternary
+
+- Here authed won’t be checked if user isn’t truthy, and using that logic, we can use the `&&` operator as a more concise ternary that renders null.
+
+```
+render() {
+  return (
+    <div>
+      <Logo />
+      {showWarning() === true && <Warning />}
+    </div>
+  )
+}
+```
+
+### React can only return one top-level element from a component.
+
+```
+render() {
+  const name = 'Tyler'
+
+  return (
+    <div>
+      <h1>Hello, {name}</h1>
+      <p>Today is {getDay()}</p>
+      <p>What is 2 + 2? {2 + 2}</p>
+    </div>
+  )
+}
+```
+
+### This can create semantic issues, in which case we can use `React.Fragment`
+
+```
+render() {
+  const name = 'Tyler'
+
+  return (
+    <React.Fragment>
+      <h1>Hello, {name}</h1>
+      <p>Today is {getDay()}</p>
+      <p>What is 2 + 2? {2 + 2}</p>
+    </React.Fragment>
+  )
+}
+```
+
+Shorthand for `<React.Fragment>` is `<>`
+
+### How does React know the difference between a custom React component like `<User />` and a built-in HTML element like `<span>`?
+
+- React components are capitalized.
+- HTML elements are lower-case
+
+# JSX Quiz
+
+1 - What is wrong with this code?
+
+`<User data={name: 'Mike', age: 41} />`
+
+- It is missing an extra set of { } and should be:
+
+`<User data={{name: 'Mike', age: 41}} />`
+
+2 - How do you use variables in JSX?
+
+- Wrap then in `{ }`
+
+3 - To render no UI, return a falsy value from `render`
+
+- False
+- Instead, return `null` or `false`
+
+4 - JSX has its own directive for conditional rendering (eg. `r-if/r-else`)
+
+- True
+- Instead of increasing the API surface layer, because JSX is “Just JavaScript”, React can leverage native JavaScript features to accomplish the same task. We can use an if/else statement, ternary operator, or the logical && operator.
+
+5 - What is wrong with this code?
+
+```
+render() {
+  return (
+    <Header />
+    <content />
+    <Footer />
+  )
+}
+```
+
+- Need to wrap components with `<React.Fragment>`
+- Cannot use lowercase component names
+- Cannot render adjacent elements like this in JSX
