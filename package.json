@@ -1,0 +1,24 @@
+{
+  "name": "react-js-overview",
+  "version": "1.0.0",
+  "description": "This boilerplate is created from scratch using Webpack and Babel.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/desertsofcacti/react-js-overview.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/desertsofcacti/react-js-overview/issues"
+  },
+  "homepage": "https://github.com/desertsofcacti/react-js-overview#readme",
+  "dependencies": {
+    "react": "^16.13.0",
+    "react-dom": "^16.13.0"
+  }
+}
