@@ -1,5 +1,7 @@
 # React Boilerplate
 
+This boilerplate is built based on the concepts documented in the [foundations](https://github.com/desertsofcacti/react-js-overview/tree/foundations) branch.
+
 This boilerplate is created from scratch using Webpack and Babel.
 
 ```
