@@ -4,21 +4,12 @@
   "description": "This boilerplate is created from scratch using Webpack and Babel.",
   "main": "index.js",
   "scripts": {
-    "start": "webpack-dev-server",
-    "build": "webpack"
+    "dev": "webpack-dev-server",
+    "prod": "webpack"
   },
   "babel": {
-    /*
-    **     Tell Babel what transforms we want to make
-    */
     "presets": [
-      /*
-      **       Standard set of browsers for compatibility
-      */
       "@babel/preset-env",
-      /*
-      **       Transform any weird react-ish syntax like JSX to plain-ol JS
-      */
       "@babel/preset-react"
     ]
   },
