@@ -8,8 +8,17 @@
     "build": "webpack"
   },
   "babel": {
+    /*
+    **     Tell Babel what transforms we want to make
+    */
     "presets": [
+      /*
+      **       Standard set of browsers for compatibility
+      */
       "@babel/preset-env",
+      /*
+      **       Transform any weird react-ish syntax like JSX to plain-ol JS
+      */
       "@babel/preset-react"
     ]
   },

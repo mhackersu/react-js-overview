@@ -1,6 +1,9 @@
 /*
  ** Using modules here
- ** Need a module bundler, let's use webpack
+ ** Need a module bundler, let's use webpack & babel
+ ** These configurations are described in:
+ ** webpack.config.js &
+ ** package.json
  */
 import React from "react";
 import ReactDOM from "react-dom";
@@ -11,10 +14,17 @@ import "./index.css";
 // LIfecycle
 // UI
 
+/*
+ ** ES6 Class that extends React.component
+ */
 class App extends React.Component {
+  /*
+   **   Render method uses JSX to describe the UI for the component
+   */
   render() {
     /*
      **     This what our JS invocation would look like if we did not have Babel
+     **     The JSX is compiled into React.createElement invocations with Babel
      */
     // return React.createElement("div", null, "Hello World");
     /*
@@ -26,11 +36,11 @@ class App extends React.Component {
 
 ReactDOM.render(
   /*
-   **   React Element
+   **   React Element that we want to render
    */
   <App />,
   /*
-   **   Where to render the element to
+   **   Instruct ReactDOM.render where we want to render the element to which is an element with an id of "app".
    */
   document.getElementById("app")
 );
