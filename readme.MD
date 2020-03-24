@@ -1858,3 +1858,15 @@ render() {
 - Need to wrap components with `<React.Fragment>`
 - Cannot use lowercase component names
 - Cannot render adjacent elements like this in JSX
+
+# Passing Data to Components
+
+## Introduction to Props
+
+> Props are to components, what arguments are to functions.
+
+## Quiz (Props)
+
+## Practice (Props)
+
+## Solutions (Props)
